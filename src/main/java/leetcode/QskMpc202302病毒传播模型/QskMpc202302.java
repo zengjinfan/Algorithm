@@ -8,7 +8,6 @@ class QskMpc202302 {
         long result = 0;
         //定义a[i]为第i天新增的人数，i从1开始
         //根据规律则有 a[i] = a[i - k + 1] + a[i - k + 2] + ... + a[i - m]
-        //推理可得 第i天康复的人数为a[i - k]
         long[] a = new long[1001];
         //第0天新增人数为0，为方便计算用
         a[0] = 0;
@@ -28,13 +27,8 @@ class QskMpc202302 {
                 a[i] = a[i] % mod;
             }
         }
-        //痊愈的人数
-        long recover = 0;
-        for (int i = 1; i <= n; i++) {
-            if (i - k > 0) {
-                recover = a[i - k];
-            }
-            result += a[i] - recover;
+        for (int i = (n - k + 1); i <= n; i++) {
+            result += a[i];
             result = result % mod;
         }
         return (int) result;
@@ -45,6 +39,8 @@ class QskMpc202302 {
         //1 <= m < k <= n
         //输入: n = 5, m = 2, k = 3
         //输出：2
+        System.out.println(1000000007L);
+        System.out.println(Long.MAX_VALUE);
         QskMpc202302 qskMpc202302 = new QskMpc202302();
         System.out.println(qskMpc202302.getCovidCount(5, 2, 3));
 
