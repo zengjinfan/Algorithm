@@ -63,7 +63,7 @@ public class QskMpc202303 {
         tidyTimes = qskMpc202303.getTidyTimes("1111100");
         System.out.println(tidyTimes);
 
-        tidyTimes = qskMpc202303.getTidyTimes("11");
+        tidyTimes = qskMpc202303.getTidyTimes("1");
         System.out.println(tidyTimes);
 
         tidyTimes = qskMpc202303.getTidyTimes("111");
