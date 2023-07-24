@@ -16,6 +16,40 @@ public class QskMpc202307 {
         return result;
     }
 
+    public long getSectionCount2(int[] waterList) {
+        long result = 0;
+        for (int i = 0; i < waterList.length; i++) {
+            // 自己默认+1
+            result++;
+            // 记录起始位置
+            for (int j = i + 1; j < waterList.length; j++) {
+                if (waterList[j - 1] - waterList[j] == 1) {
+                    // j是缓慢区间
+                    result++;
+                } else {
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    public long getSectionCount3(int[] waterList) {
+        long total = 0L;
+        int index = 0;
+        while (index < waterList.length) {
+            int maxLen = 1;
+            total++;
+            while (index + 1 < waterList.length && waterList[index + 1] == waterList[index] - 1) {
+                index++;
+                maxLen++;
+                total += maxLen;
+            }
+            index++;
+        }
+        return total;
+    }
+
     private boolean isDesc(int[] waterList, int start, int end) {
         int temp = waterList[start];
         for (int i = start + 1; i <= end; i++) {
@@ -43,10 +77,10 @@ public class QskMpc202307 {
         System.out.println("检查1:" + qskMpc202307.getSectionCount(waterList));
 
         waterList = new int[]{18, 17, 16, 15, 14, 13, 12, 11, 10, 14, 13, 12, 11, 10, 10, 9, 8, 7};
-        System.out.println("检查2:" + qskMpc202307.getSectionCount(waterList));
+        System.out.println("检查2:" + qskMpc202307.getSectionCount3(waterList));
 
         waterList = new int[]{7523, 13005, 13004, 13003, 13002, 13001, 2611, 11750, 7807, 4943, 14631, 13265, 14040, 13655, 5777, 1588, 7818, 10266, 6164, 7832, 13131, 19289, 11243, 14712, 17721, 18687, 13889, 13888, 13887, 13886, 4703, 13094, 3933, 3932, 3931, 3930, 3929, 3928, 3182, 19377, 13405, 13886, 9842, 975, 16071};
-        System.out.println("检查3:" + qskMpc202307.getSectionCount(waterList));
+        System.out.println("检查3:" + qskMpc202307.getSectionCount3(waterList));
 
     }
 }
