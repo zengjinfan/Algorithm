@@ -9,11 +9,49 @@ public class QskMpc202311 {
     List<List<Integer>> resultList = new ArrayList<>();
     int maxDollCount = -1;
 
+    /**
+     * 采用dfs深度搜索
+     * @param dollList
+     * @param luckyNum
+     * @return
+     */
     public int maxDollCount(List<Integer> dollList, int luckyNum) {
         Collections.sort(dollList);
         dfs(new ArrayList<>(), dollList, 0, luckyNum);
         System.out.println(resultList);
         return maxDollCount;
+    }
+
+    /**
+     * 采用动态规划
+     * @param dollList
+     * @param luckyNum
+     * @return
+     */
+    public int maxDollCount2(List<Integer> dollList, int luckyNum) {
+        int size = dollList.size();
+        //dp[i][j]表示是为用前i个公仔，凑和为j的最大公仔数
+        //默认定义dp[i][j]=-1，表示无法凑到和为j，只有dp[i][0] = 0，前i个公仔凑到和为0的最大公仔数，都是0个
+        //dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - dollList[i]])
+        int[][] dp = new int[size + 1][luckyNum + 1];
+
+        for (int i = 0; i <= size; i++) {
+            Arrays.fill(dp[i], -1);
+            dp[i][0] = 0;
+        }
+
+        for (int i = 1; i <= size; i++) {
+            int val = dollList.get(i - 1);
+            for (int j = 1; j <= luckyNum; j++) {
+                dp[i][j] = dp[i - 1][j]; //默认第i个公仔不要
+                if (j >= val) {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - val] + 1);
+                }
+            }
+        }
+
+        return dp[size][luckyNum];
+
     }
 
     public void dfs(List<Integer> currentList, List<Integer> candidateList, int searchStart,
@@ -28,7 +66,7 @@ public class QskMpc202311 {
 
         for (int i = searchStart; i < candidateList.size(); i++) {
             Integer candidate = candidateList.get(i);
-            if(i > searchStart && candidate.equals(candidateList.get(i - 1))){
+            if (i > searchStart && candidate.equals(candidateList.get(i - 1))) {
                 continue;
             }
             currentList.add(candidate);
@@ -41,7 +79,7 @@ public class QskMpc202311 {
         Integer[] dollArr = {3, 9, 15, 7, 14, 3, 9, 14, 7}; //3,3,7,7,9,9,14,14,15
         List<Integer> dollList = Arrays.asList(dollArr);
         int luckyNum = 48;
-        int res = new QskMpc202311().maxDollCount(dollList, luckyNum);
+        int res = new QskMpc202311().maxDollCount2(dollList, luckyNum);
         System.out.println(res);
 
 //        Integer[] dollArr2 = {1, 1, 2, 2, 3, 3};
